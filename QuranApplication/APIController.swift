@@ -13,12 +13,11 @@ typealias jsonResult = AnyObject
 
 class APIController {
     
-    static let sharedInstance = APIController()
     private let session = NSURLSession.sharedSession()
     
-    func queryGlobalResults(callback: (jsonResult) -> Void) {
+    func queryGlobalResults(urlString: String, callback: (jsonResult) -> Void) {
         
-        guard let url =  NSURL(string: "https://api.islamhouse.com/v1/JD9dL72GG4vVy81Y/quran/get-categories/ar/json") else {
+        guard let url =  NSURL(string: urlString) else {
             return
         }
         
