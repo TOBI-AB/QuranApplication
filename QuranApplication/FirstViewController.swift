@@ -13,8 +13,19 @@ class FirstViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-
-        tabBarItem.title = "Test"
+        
+        let api =  APIController.init()
+        
+        api.queryGlobalResults { (jsonResult) -> Void in
+            
+            guard let jsonResult = jsonResult as? [NSDictionary] else {
+                return
+            }
+            
+            
+            
+            print(jsonResult[0])
+        }
     }
 
     override func didReceiveMemoryWarning() {
