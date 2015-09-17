@@ -13,18 +13,23 @@ class FirstViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.tabBarItem.title = "المصاحف المجودة"
         
         let api =  APIController.init()
         
-        api.queryGlobalResults { (jsonResult) -> Void in
+        api.queryGlobalResults {[unowned self] (jsonResult) -> Void in
             
             guard let jsonResult = jsonResult as? [NSDictionary] else {
                 return
             }
             
-            
-            
-            print(jsonResult[0])
+            jsonResult.forEach({ (item) -> () in
+               
+                if let title = item["title"] as? String where title == "المصاحف المجودة" {
+                    
+                    
+                }
+            })
         }
     }
 
