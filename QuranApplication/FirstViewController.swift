@@ -10,20 +10,62 @@ import UIKit
 
 class FirstViewController: UIViewController {
     
+    // MARK: -
+    // MARK: == Properties ==
+    // MARK: -
+    
     private var reciters = [Reciter]()
-    let api =  APIController.init()
+    private let api =  APIController.init()
     
     struct URLS {
         static let globalURL   = "https://api.islamhouse.com/v1/JD9dL72GG4vVy81Y/quran/get-categories/ar/json"
         static let recitersURL = "https://api.islamhouse.com/v1/JD9dL72GG4vVy81Y/quran/get-category/364765/ar/json/"
     }
+    
+    struct Storyboard {
+        static let cellIdentifier = "reciterCell"
+    }
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    // MARK: -
+    // MARK: == View Life Cycle ==
+    // MARK: -
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.tableView.estimatedRowHeight = 100
+        self.tableView.rowHeight = UITableViewAutomaticDimension
         
         self.tabBarItem.title = "المصاحف المجودة"
         
+        fetchGlobalResults()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let cell = sender as? FirstSectionCell, indexPath = tableView.indexPathForCell(cell) as NSIndexPath? where segue.identifier == "segueFromFirstSection" {
+            
+            if let playerViewController = segue.destinationViewController as? PlayerViewController {
+                playerViewController.reciter = self.reciters[indexPath.row]
+            }
+        }
+    }
+}
+
+
+
+
+
+
+// MARk: -
+// MARK: == Privates Function ==
+// MARk: -
+
+extension FirstViewController {
+    
+    func fetchGlobalResults() {
+       
         api.queryGlobalResults(URLS.globalURL) {[unowned self] (jsonResult) -> Void in
             
             guard let jsonResult = jsonResult as? [NSDictionary] else {
@@ -31,7 +73,7 @@ class FirstViewController: UIViewController {
             }
             
             jsonResult.forEach({ (item) -> () in
-               
+                
                 guard let title = item["title"] as? String where title == "المصاحف المجودة" else {
                     return
                 }
@@ -44,14 +86,7 @@ class FirstViewController: UIViewController {
             })
         }
     }
-}
-
-// MARk: -
-// MARK: == Privates Function ==
-// MARk: -
-
-extension FirstViewController {
-    
+   
     
     func fetchRecitersFor(urlString urlString: String) {
         
@@ -64,14 +99,6 @@ extension FirstViewController {
                         return
             }
             
-           
-            // Set NavigationItem Title
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.navigationItem.title = sectionTitle
-            })
-            
-            
             
             // Query Reciters List
             
@@ -83,16 +110,51 @@ extension FirstViewController {
                 
                 let reciter = Reciter(title: reciterTitle, api_url: reciterUrl)
                 self.reciters.append(reciter)
+                
+                
+                // Setup NavigationItem & TableView
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.navigationItem.title = sectionTitle
+                    self.tableView.reloadData()
+                })
+                
             })
         }
     }
 }
 
 
+// MARk: -
+// MARK: == UITableViewDataSource ==
+// MARk: -
 
+extension FirstViewController: UITableViewDataSource {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return self.reciters.isEmpty ? 0 : self.reciters.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.cellIdentifier, forIndexPath: indexPath) as! FirstSectionCell
+        
+        cell.reciter = self.reciters[indexPath.row]
+        
+        return cell
+    }
+}
 
+// MARk: -
+// MARK: == UITableViewDelegate ==
+// MARk: -
 
-
+extension FirstViewController: UITableViewDelegate {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+}
 
 
 

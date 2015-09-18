@@ -11,6 +11,12 @@ import UIKit
 class FirstSectionCell: UITableViewCell {
     
     @IBOutlet weak var reciterLabel: UILabel!
+    
+    var reciter: Reciter! {
+        didSet {
+            updateView()
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,6 +27,15 @@ class FirstSectionCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func updateView() {
+      
+        guard let title = reciter.title as String? else {
+            return
+        }
+        
+        self.reciterLabel?.text = title
     }
 
 }

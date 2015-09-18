@@ -1,15 +1,15 @@
 //
-//  Model.swift
+//  Reciter.swift
 //  QuranApplication
 //
-//  Created by Abdelghaffar on 17/09/2015.
+//  Created by Abdelghaffar on 18/09/2015.
 //  Copyright © 2015 Abdelghaffar. All rights reserved.
 //
 
 import UIKit
 
 struct Reciter {
-   
+    
     let title: String?
     let api_url: String?
     
@@ -18,3 +18,4 @@ struct Reciter {
         self.api_url = api_url
     }
 }
+
