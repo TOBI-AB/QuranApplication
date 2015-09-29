@@ -14,7 +14,15 @@ class PlayerViewController: UIViewController {
     typealias arrayDictionary = [Dictionary]
    
     var reciter: Reciter!
+    var suratsArray = [Surat]()
     private let apiController = APIController.init()
+    
+    
+    struct Storyboard {
+        static let cellIdentifier = "suratCell"
+    }
+    
+    @IBOutlet weak var tableView: UITableView!
 
 
     override func viewDidLoad() {
@@ -27,7 +35,6 @@ class PlayerViewController: UIViewController {
         }
         
         fetchSuratsForURL(urlString: api_url)
-        
     }
 
     
@@ -44,6 +51,9 @@ class PlayerViewController: UIViewController {
 
 }
 
+// MARK: -
+// MARK: == Private Functions
+// MARK: -
 
 extension PlayerViewController {
     
@@ -54,7 +64,21 @@ extension PlayerViewController {
             if let jsonResult = jsonResult as? Dictionary, suratsArray = jsonResult["attachments"] as? arrayDictionary {
                 
                 suratsArray.forEach({ (surat) -> () in
-                    print(surat["title"])
+                    
+                    guard let title = surat["title"] as? String else {
+                        return
+                    }
+                    
+                    guard let suratURL = surat["url"] as? String else {
+                        return
+                    }
+                    
+                    let surat = Surat(title: title, api_url: suratURL)
+                    self.suratsArray.append(surat)
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.tableView.reloadData()
+                    })
                 })
             }
             
@@ -64,7 +88,26 @@ extension PlayerViewController {
 }
 
 
+// MARK: -
+// MARK: == UITableViewDataSource
+// MARK: -
 
+extension PlayerViewController: UITableViewDataSource {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.suratsArray.isEmpty ? 0 : self.suratsArray.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.cellIdentifier, forIndexPath: indexPath) as! SecondTableViewCell
+        
+        cell.surat = self.suratsArray[indexPath.row]
+        
+        
+        return cell
+    }
+}
 
 
 

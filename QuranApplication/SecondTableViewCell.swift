@@ -1,22 +1,24 @@
 //
-//  FirstSectionCell.swift
+//  SecondTableViewCell.swift
 //  QuranApplication
 //
-//  Created by Abdelghaffar on 17/09/2015.
+//  Created by Abdelghaffar on 18/09/2015.
 //  Copyright © 2015 Abdelghaffar. All rights reserved.
 //
 
 import UIKit
 
-class FirstSectionCell: UITableViewCell {
+class SecondTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var reciterLabel: UILabel!
+    // MARK: - Properties
     
-    var reciter: Reciter? {
+    var surat: Surat? {
         didSet {
             updateView()
         }
     }
+    
+    @IBOutlet weak var suratLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,12 +32,12 @@ class FirstSectionCell: UITableViewCell {
     }
     
     func updateView() {
-      
-        guard let reciter = reciter as Reciter?, let title = reciter.title as String? else {
+        
+        guard let surat = surat as Surat?, title = surat.title as String? else {
             return
         }
         
-        self.reciterLabel?.text = title
+        self.suratLabel?.text = title
     }
 
 }

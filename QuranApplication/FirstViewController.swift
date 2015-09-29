@@ -14,7 +14,7 @@ class FirstViewController: UIViewController {
     // MARK: == Properties ==
     // MARK: -
     
-    private var reciters = [Reciter]()
+    private var recitersArray = [Reciter]()
     private let api =  APIController.init()
     
     struct URLS {
@@ -47,7 +47,7 @@ class FirstViewController: UIViewController {
         if let cell = sender as? FirstSectionCell, indexPath = tableView.indexPathForCell(cell) as NSIndexPath? where segue.identifier == "segueFromFirstSection" {
             
             if let playerViewController = segue.destinationViewController as? PlayerViewController {
-                playerViewController.reciter = self.reciters[indexPath.row]
+                playerViewController.reciter = self.recitersArray[indexPath.row]
             }
         }
     }
@@ -109,7 +109,7 @@ extension FirstViewController {
                 }
                 
                 let reciter = Reciter(title: reciterTitle, api_url: reciterUrl)
-                self.reciters.append(reciter)
+                self.recitersArray.append(reciter)
                 
                 
                 // Setup NavigationItem & TableView
@@ -133,14 +133,14 @@ extension FirstViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return self.reciters.isEmpty ? 0 : self.reciters.count
+        return self.recitersArray.isEmpty ? 0 : self.recitersArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.cellIdentifier, forIndexPath: indexPath) as! FirstSectionCell
         
-        cell.reciter = self.reciters[indexPath.row]
+        cell.reciter = self.recitersArray[indexPath.row]
         
         return cell
     }

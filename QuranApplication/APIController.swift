@@ -10,7 +10,6 @@ import UIKit
 
 typealias jsonResult = AnyObject
 
-
 class APIController {
     
     private let session = NSURLSession.sharedSession()
@@ -18,6 +17,7 @@ class APIController {
     func queryGlobalResults(urlString: String, callback: (jsonResult) -> Void) {
         
         guard let url =  NSURL(string: urlString) else {
+            
             return
         }
         
