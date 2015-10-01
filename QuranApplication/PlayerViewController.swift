@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class PlayerViewController: UIViewController {
     
@@ -14,7 +15,8 @@ class PlayerViewController: UIViewController {
     typealias arrayDictionary = [Dictionary]
    
     var reciter: Reciter!
-    var suratsArray = [Surat]()
+    private var suratsArray = [Surat]()
+    private var player: AVPlayer!
     private let apiController = APIController.init()
     
     
@@ -51,12 +53,11 @@ class PlayerViewController: UIViewController {
 
 }
 
-// MARK: -
-// MARK: == Private Functions
-// MARK: -
+// MARK: - Private Functions
 
 extension PlayerViewController {
     
+    // Fetch Surats
     func fetchSuratsForURL(urlString urlString: String) {
         
         apiController.queryGlobalResults(urlString) { (jsonResult) -> Void in
@@ -81,16 +82,20 @@ extension PlayerViewController {
                     })
                 })
             }
-            
-        
         }
     }
+    
+    // Play Surat At Selected Row
+    func playSuratAtIndexPath(indexPath indexPath: NSIndexPath) {
+        
+        let surat = self.suratsArray[indexPath.row]
+        print(surat.api_url)
+    }
+
 }
 
 
-// MARK: -
-// MARK: == UITableViewDataSource
-// MARK: -
+// MARK: - UITableViewDataSource
 
 extension PlayerViewController: UITableViewDataSource {
     
@@ -110,7 +115,15 @@ extension PlayerViewController: UITableViewDataSource {
 }
 
 
+// MARK: - UITableViewDelegate
 
+extension PlayerViewController: UITableViewDelegate {
+  
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        playSuratAtIndexPath(indexPath: indexPath)
+    }
+}
 
 
 
