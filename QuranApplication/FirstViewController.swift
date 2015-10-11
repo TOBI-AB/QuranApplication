@@ -32,6 +32,13 @@ class FirstViewController: UIViewController {
     // MARK: == View Life Cycle ==
     // MARK: -
 
+    @IBAction func showPlayerController(sender: UIBarButtonItem) {
+        
+        performSegueWithIdentifier("showPlayerViewController", sender: self)
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,16 +53,12 @@ class FirstViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let cell = sender as? FirstSectionCell, indexPath = tableView.indexPathForCell(cell) as NSIndexPath? where segue.identifier == "segueFromFirstSection" {
             
-            if let playerViewController = segue.destinationViewController as? PlayerViewController {
-                playerViewController.reciter = self.recitersArray[indexPath.row]
+            if let souratesViewController = segue.destinationViewController as? SouratesViewController {
+                souratesViewController.reciter = self.recitersArray[indexPath.row]
             }
         }
     }
 }
-
-
-
-
 
 
 // MARk: -
