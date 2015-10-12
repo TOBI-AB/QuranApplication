@@ -34,7 +34,10 @@ class FirstViewController: UIViewController {
 
     @IBAction func showPlayerController(sender: UIBarButtonItem) {
         
-        performSegueWithIdentifier("showPlayerViewController", sender: self)
+        //performSegueWithIdentifier("showPlayerViewController", sender: self)
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let playerVc = storyBoard.instantiateViewControllerWithIdentifier("PlayerVC")
+        showViewController(playerVc, sender: self)
     }
     
     
@@ -58,6 +61,10 @@ class FirstViewController: UIViewController {
             }
         }
     }
+    
+//    @IBAction func cancelToRecitersViewController(segue: UIStoryboardSegue) {
+//        
+//    }
 }
 
 

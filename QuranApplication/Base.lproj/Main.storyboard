@@ -95,7 +95,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="fsq-sR-1lQ" id="kMH-QR-SbM"/>
-                        <segue destination="zLD-dP-YQx" kind="show" identifier="showPlayerViewController" id="Kak-LZ-JiA"/>
+                        <segue destination="zLD-dP-YQx" kind="show" identifier="showPlayerViewController" id="CWY-wq-egB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OUB-83-qzt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -145,7 +145,7 @@
                                         <animations/>
                                         <connections>
                                             <outlet property="suratLabel" destination="bia-Hr-Jei" id="2rz-vJ-BzI"/>
-                                            <segue destination="zLD-dP-YQx" kind="show" id="Y0V-PC-S5o"/>
+                                            <segue destination="zLD-dP-YQx" kind="show" identifier="playiSourateSegue" id="C1y-Nb-Giv"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -172,10 +172,10 @@
             </objects>
             <point key="canvasLocation" x="1856" y="-209"/>
         </scene>
-        <!--View Controller-->
+        <!--Player View Controller-->
         <scene sceneID="hwo-Fg-gKn">
             <objects>
-                <viewController id="zLD-dP-YQx" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlayerVC" id="zLD-dP-YQx" customClass="PlayerViewController" customModule="QuranApplication" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Eo9-nK-WH9"/>
                         <viewControllerLayoutGuide type="bottom" id="U0F-ft-Q86"/>
@@ -186,10 +186,11 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="AZZ-TW-Afs"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jci-LK-Izj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1856" y="566"/>
+            <point key="canvasLocation" x="1856" y="485"/>
         </scene>
         <!--Item-->
         <scene sceneID="IYt-Ol-lbh">
@@ -253,6 +254,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Y0V-PC-S5o"/>
+        <segue reference="C1y-Nb-Giv"/>
     </inferredMetricsTieBreakers>
 </document>
