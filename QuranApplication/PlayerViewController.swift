@@ -33,7 +33,9 @@ class PlayerViewController: UIViewController {
     }
     
     var duration: Double {
-        guard let currentItem = player.currentItem else { return 0.0 }
+        guard let currentItem = player.currentItem else {
+            return 0.0
+        }
         
         return CMTimeGetSeconds(currentItem.duration)
     }
@@ -65,6 +67,7 @@ class PlayerViewController: UIViewController {
         }
     }
     
+    // MARK: - View Life Cycle
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -74,6 +77,8 @@ class PlayerViewController: UIViewController {
         }
        
         player.addObserver(self, forKeyPath: "status", options: [.New, .Initial], context: &playerViewControllerKVOContext)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerCurrenItemReachEnd", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
         
         asset = AVURLAsset(URL: sourateUrl)
         
@@ -88,7 +93,7 @@ class PlayerViewController: UIViewController {
         newAsset.loadValuesAsynchronouslyForKeys(PlayerViewController.assetKeysRequiredToPlay) { () -> Void in
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                
+
                 guard newAsset == self.asset else {
                     return
                 }
@@ -114,10 +119,19 @@ class PlayerViewController: UIViewController {
                     return
                 }
             })
+            
+            self.playerItem = AVPlayerItem(asset: newAsset)
+            
+            guard let artistKey = AVMetadataItem.metadataItemsFromArray(newAsset.commonMetadata, withKey: AVMetadataCommonKeyArtist, keySpace: AVMetadataKeySpaceCommon).first as AVMetadataItem? else {
+                return
+            }
+            
+            
+            
         }
     }
     
-    // MARK: -DEINIT
+    // MARK: - DEINIT
     deinit {
     
         if let timeObserverToken = timeObserverToken {
@@ -129,12 +143,55 @@ class PlayerViewController: UIViewController {
         
         if player.currentItem != nil {
             player.removeObserver(self, forKeyPath: "status", context: &playerViewControllerKVOContext)
+            NSNotificationCenter.defaultCenter().removeObserver(self)
         } else {
 
             return
         }
     }
 }
+
+
+
+// MARK: - Player Observing
+extension PlayerViewController {
+   
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        
+        // Make sure the this KVO callback was intended for this view controller.
+        guard context == &playerViewControllerKVOContext else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            return
+        }
+
+        if keyPath == "status" {
+            
+            let newStatus: AVPlayerItemStatus
+           
+            // TODO:  Correct this section
+            if let newStatusAsNumber = change?[NSKeyValueChangeNewKey] as? NSNumber {
+             
+                newStatus = AVPlayerItemStatus(rawValue: newStatusAsNumber.integerValue)!
+                player.play()
+            
+            } else {
+                newStatus = .Unknown
+            }
+            
+            if newStatus == .Failed {
+                print(player.currentItem?.error?.localizedDescription)
+            }
+        }
+    }
+    
+    
+    // Notification when player reach the end
+    func playerCurrenItemReachEnd() {
+        navigationController?.popViewControllerAnimated(true)
+    }
+}
+
+
 
 
 // MARK: - Error Handling
@@ -156,44 +213,6 @@ extension PlayerViewController {
         presentViewController(alert, animated: true, completion: nil)
     }
 }
-
-
-// MARK: - Player Observing
-extension PlayerViewController {
-   
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        
-        // Make sure the this KVO callback was intended for this view controller.
-        guard context == &playerViewControllerKVOContext else {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
-            return
-        }
-        
-        if keyPath == "status" {
-            
-            // Display an error if status becomes `.Failed`.
-            
-            /*
-            Handle `NSNull` value for `NSKeyValueChangeNewKey`, i.e. when
-            `player.currentItem` is nil.
-            */
-            let newStatus: AVPlayerItemStatus
-            if let newStatusAsNumber = change?[NSKeyValueChangeNewKey] as? NSNumber {
-                newStatus = AVPlayerItemStatus(rawValue: newStatusAsNumber.integerValue)!
-                player.play()
-            } else {
-                newStatus = .Unknown
-            }
-            
-            if newStatus == .Failed {
-                print(player.currentItem?.error?.localizedDescription)
-            }
-        }
-    }
-}
-
-
-
 
 
 
