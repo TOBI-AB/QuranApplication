@@ -15,6 +15,11 @@ private var playerViewControllerKVOContext = 0
 
 class PlayerViewController: UIViewController {
     
+    @IBOutlet weak var albumLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var artistLabel: UILabel!
+
+    
     var sourate: Surat!
     
     // Attempt load and test these asset keys before playing.
@@ -83,6 +88,10 @@ class PlayerViewController: UIViewController {
         asset = AVURLAsset(URL: sourateUrl)
         
         // TODO: Time Slider
+        
+//        self.albumLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleTitle2)
+//        self.artistLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleTitle1)
+//        self.titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleTitle1)
     }
 
     
@@ -122,11 +131,31 @@ class PlayerViewController: UIViewController {
             
             self.playerItem = AVPlayerItem(asset: newAsset)
             
-            guard let artistKey = AVMetadataItem.metadataItemsFromArray(newAsset.commonMetadata, withKey: AVMetadataCommonKeyArtist, keySpace: AVMetadataKeySpaceCommon).first as AVMetadataItem? else {
-                return
+            // GET Album Metadata
+            if let albumMetaData = AVMetadataItem.metadataItemsFromArray(newAsset.commonMetadata, withKey: AVMetadataCommonKeyAlbumName, keySpace: AVMetadataKeySpaceCommon).first as AVMetadataItem?, value = albumMetaData.value as protocol<NSCopying, NSObjectProtocol>?, albumName = String(value) as String?  {
+
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.albumLabel.text = albumName
+                })
+            }
+            
+            // GET Artist Metadata
+            if let artistMetaData = AVMetadataItem.metadataItemsFromArray(newAsset.commonMetadata, withKey: AVMetadataCommonKeyArtist, keySpace: AVMetadataKeySpaceCommon).first as AVMetadataItem?, value = artistMetaData.value as protocol<NSCopying, NSObjectProtocol>?, artistName = String(value) as String? {
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.artistLabel.text = artistName
+                })
             }
             
             
+            
+            // GET Title Metadata
+            if let titleMetaData = AVMetadataItem.metadataItemsFromArray(newAsset.commonMetadata, withKey: AVMetadataCommonKeyTitle, keySpace: AVMetadataKeySpaceCommon).first as AVMetadataItem?, value = titleMetaData.value as protocol<NSCopying, NSObjectProtocol>?, title = String(value) as String?  {
+               
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.titleLabel.text = title
+                })
+            }
             
         }
     }
