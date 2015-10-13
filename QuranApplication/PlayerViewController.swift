@@ -208,6 +208,9 @@ extension PlayerViewController {
                 let theSession = AVAudioSession.sharedInstance()
                 NSNotificationCenter.defaultCenter().addObserver(self, selector: "playInterrupt:", name: AVAudioSessionInterruptionNotification, object: theSession)
                 
+                // Handle Background Mode
+                playAudioInBackground()
+                
             } else {
                 newStatus = .Unknown
             }
@@ -229,6 +232,7 @@ extension PlayerViewController {
         if notification.name == AVAudioSessionInterruptionNotification && notification.userInfo != nil {
             let info = notification.userInfo!
             var intValue: UInt = 0
+            
             guard let interruptionTypeKey = info[AVAudioSessionInterruptionTypeKey] as? NSValue else {
                 return
             }
@@ -249,6 +253,23 @@ extension PlayerViewController {
     func resumeNow(timer : NSTimer)
     {
         player.play()
+    }
+    
+    // Play Audio in Background
+    func playAudioInBackground() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            print("session -> playback")
+            
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+                print("Session active")
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
     }
 }
 
