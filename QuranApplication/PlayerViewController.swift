@@ -201,8 +201,13 @@ extension PlayerViewController {
             if let newStatusAsNumber = change?[NSKeyValueChangeNewKey] as? NSNumber {
              
                 newStatus = AVPlayerItemStatus(rawValue: newStatusAsNumber.integerValue)!
+                
                 player.play()
-            
+                
+                // Add Interruption Notification
+                let theSession = AVAudioSession.sharedInstance()
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "playInterrupt:", name: AVAudioSessionInterruptionNotification, object: theSession)
+                
             } else {
                 newStatus = .Unknown
             }
@@ -217,6 +222,33 @@ extension PlayerViewController {
     // Notification when player reach the end
     func playerCurrenItemReachEnd() {
         navigationController?.popViewControllerAnimated(true)
+    }
+    
+    // Handle Interruption Notification
+    func playInterrupt(notification: NSNotification) {
+        if notification.name == AVAudioSessionInterruptionNotification && notification.userInfo != nil {
+            let info = notification.userInfo!
+            var intValue: UInt = 0
+            guard let interruptionTypeKey = info[AVAudioSessionInterruptionTypeKey] as? NSValue else {
+                return
+            }
+            
+            interruptionTypeKey.getValue(&intValue)
+            if let type = AVAudioSessionInterruptionType(rawValue: intValue) {
+                switch type {
+                case .Began:
+                    player.pause()
+                case .Ended:
+                    NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "resumeNow:", userInfo: nil, repeats: false)
+                }
+            }
+        }
+    }
+    
+    // Resume Audio Session
+    func resumeNow(timer : NSTimer)
+    {
+        player.play()
     }
 }
 
