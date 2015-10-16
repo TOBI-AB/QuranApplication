@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21266FC31BCF9A4F006F11A4 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21266FC21BCF9A4F006F11A4 /* MediaPlayer.framework */; };
 		3E3EDDD51BAB2C58000FA933 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDD41BAB2C58000FA933 /* AppDelegate.swift */; };
 		3E3EDDD71BAB2C58000FA933 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDD61BAB2C58000FA933 /* FirstViewController.swift */; };
 		3E3EDDD91BAB2C58000FA933 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDD81BAB2C58000FA933 /* PlayerViewController.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		21266FC21BCF9A4F006F11A4 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		3E3EDDD11BAB2C58000FA933 /* QuranApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuranApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E3EDDD41BAB2C58000FA933 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E3EDDD61BAB2C58000FA933 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21266FC31BCF9A4F006F11A4 /* MediaPlayer.framework in Frameworks */,
 				CA07C82F1BBD6C34009B6F3E /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,6 +141,7 @@
 		CA07C82D1BBD6C18009B6F3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				21266FC21BCF9A4F006F11A4 /* MediaPlayer.framework */,
 				CA07C82E1BBD6C34009B6F3E /* AVFoundation.framework */,
 			);
 			name = Frameworks;

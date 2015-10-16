@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import MediaPlayer
 
 // MARK: - KVO context
 private var playerViewControllerKVOContext = 0
@@ -18,7 +19,8 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var albumLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
-
+    @IBOutlet weak var timeSlider: UISlider!
+    
     
     var sourate: Surat!
     
@@ -74,29 +76,47 @@ class PlayerViewController: UIViewController {
     
     // MARK: - View Life Cycle
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
         
         guard let sourate = sourate as Surat?, urlString = sourate.api_url as String?, let sourateUrl = NSURL(string: urlString) else {
             return
         }
        
+        asset = AVURLAsset(URL: sourateUrl)
         player.addObserver(self, forKeyPath: "status", options: [.New, .Initial], context: &playerViewControllerKVOContext)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerCurrenItemReachEnd", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
         
-        asset = AVURLAsset(URL: sourateUrl)
-        
-        // TODO: Time Slider
+        // Time Observal
+        let interval = CMTimeMake(1, 1)
+        timeObserverToken = player.addPeriodicTimeObserverForInterval(interval, queue: dispatch_get_main_queue(), usingBlock: {[weak self] (time) -> Void in
+            
+            if  let _self = self {
+                
+                _self.timeSlider.value = Float(CMTimeGetSeconds(time))
+            }
+            })
         
 //        self.albumLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleTitle2)
 //        self.artistLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleTitle1)
 //        self.titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleTitle1)
     }
 
+    // MARK: - Remote Controller
+    override func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.becomeFirstResponder()
+        UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
+    }
+    
     
     // MARK: - Asset Loading
-    
     func asynchronouslyLoadURLAsset(newAsset: AVURLAsset) {
      
         newAsset.loadValuesAsynchronouslyForKeys(PlayerViewController.assetKeysRequiredToPlay) { () -> Void in
@@ -106,6 +126,7 @@ class PlayerViewController: UIViewController {
                 guard newAsset == self.asset else {
                     return
                 }
+                
                 
                 PlayerViewController.assetKeysRequiredToPlay.forEach({ (key) -> () in
                     var error: NSError?
@@ -154,10 +175,18 @@ class PlayerViewController: UIViewController {
                
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.titleLabel.text = title
+                    MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyTitle: title]
                 })
             }
             
+            //getAssetMeteData(asset: Avasset)
+            
         }
+    }
+    
+    // MARK: - Time slider Did Change
+    @IBAction func timeSliderDidChanged(sender: UISlider) {
+        currentTime = Double(sender.value)
     }
     
     // MARK: - DEINIT
@@ -182,7 +211,7 @@ class PlayerViewController: UIViewController {
 
 
 
-// MARK: - Player Observing
+// MARK: - Player Observing & Notifications
 extension PlayerViewController {
    
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
@@ -250,36 +279,33 @@ extension PlayerViewController {
     }
     
     // Resume Audio Session
-    func resumeNow(timer : NSTimer)
-    {
+    func resumeNow(timer : NSTimer) {
         player.play()
     }
     
-    // Play Audio in Background
+    // Handle Background Mode
     func playAudioInBackground() {
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            print("session -> playback")
             
             do {
                 try AVAudioSession.sharedInstance().setActive(true)
-                print("Session active")
+                
             } catch let error as NSError {
-                print(error.localizedDescription)
+                print("Active Error: \(error.localizedDescription)")
             }
         } catch let error as NSError {
-            print(error.localizedDescription)
+            print("Session Error: \(error.localizedDescription)")
         }
     }
 }
 
 
 
-
-// MARK: - Error Handling
+// MARK: - Pirvate Functions
 extension PlayerViewController {
     
-    func handleErrorWithMessage(message: String?, error: NSError? = nil) {
+    private func handleErrorWithMessage(message: String?, error: NSError? = nil) {
         
         let alertTitle = NSLocalizedString("alert.error.title", comment: "Alert title for errors")
         let defaultAlertMessage = NSLocalizedString("error.default.description", comment: "Default error message when no NSError provided")
@@ -293,6 +319,40 @@ extension PlayerViewController {
         alert.addAction(alertAction)
         
         presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    private func getAssetMeteData(asset: AVAsset) -> (album: String, artist: String, title: String)? {
+        /*
+        f let albumMetaData = AVMetadataItem.metadataItemsFromArray(newAsset.commonMetadata, withKey: AVMetadataCommonKeyAlbumName, keySpace: AVMetadataKeySpaceCommon).first as AVMetadataItem?, value = albumMetaData.value as protocol<NSCopying, NSObjectProtocol>?, albumName = String(value) as String?  {
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        self.albumLabel.text = albumName
+        })
+        }
+        
+        // GET Artist Metadata
+        if let artistMetaData = AVMetadataItem.metadataItemsFromArray(newAsset.commonMetadata, withKey: AVMetadataCommonKeyArtist, keySpace: AVMetadataKeySpaceCommon).first as AVMetadataItem?, value = artistMetaData.value as protocol<NSCopying, NSObjectProtocol>?, artistName = String(value) as String? {
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        self.artistLabel.text = artistName
+        })
+        }
+        
+        
+        
+        // GET Title Metadata
+        if let titleMetaData = AVMetadataItem.metadataItemsFromArray(newAsset.commonMetadata, withKey: AVMetadataCommonKeyTitle, keySpace: AVMetadataKeySpaceCommon).first as AVMetadataItem?, value = titleMetaData.value as protocol<NSCopying, NSObjectProtocol>?, title = String(value) as String?  {
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        self.titleLabel.text = title
+        })
+        }
+
+        
+        */
+        
+        
+        return nil
     }
 }
 
