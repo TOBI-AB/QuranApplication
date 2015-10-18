@@ -10,41 +10,59 @@ import UIKit
 
 typealias jsonResult = AnyObject
 
-class APIController {
+class APIController: NSObject {
     
-    private let session = NSURLSession.sharedSession()
+    enum APIControllerError: ErrorType {
+
+        case CouldNotFetchingData
+    }
     
-    func queryGlobalResults(urlString: String, callback: (jsonResult) -> Void) {
+    
+    private func queryGlobalResults(urlString: String, callback: (jsonResult) -> Void) throws {
         
         guard let url =  NSURL(string: urlString) else {
             
             return
         }
         
-        let jsonQuery = session.dataTaskWithURL(url) { (data, response, error) -> Void in
+        guard let task = NSURLSession.sharedSession().dataTaskWithURL(url, completionHandler: {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
             
-            guard let response = response as? NSHTTPURLResponse where response.statusCode == 200 else {
-                print(error?.localizedDescription)
+            guard let serverResponse = response as? NSHTTPURLResponse where serverResponse.statusCode == 200 else {
+                print("Error Server: \(error!.localizedDescription)")
                 return
             }
             
-            guard let data = data as NSData? else {
-                print(error?.localizedDescription)
+            guard let dataFromServer = data as NSData? else {
+                print("Error NO Data:\(error!.localizedDescription)")
                 return
             }
             
             do {
                 
-                let jsonResult = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
+                let jsonResult = try NSJSONSerialization.JSONObjectWithData(dataFromServer, options: NSJSONReadingOptions.AllowFragments)
                 callback(jsonResult)
-                
-            } catch let error as NSError {
-                print(error.localizedDescription)
+        
+            } catch let errorParsingDataToJSON as NSError {
+                print(errorParsingDataToJSON.localizedDescription)
             }
-            
-            
+        
+        }) as NSURLSessionDataTask? else {
+            throw APIControllerError.CouldNotFetchingData
         }
         
-        jsonQuery.resume()
+        task.resume()
+    }
+    
+    class func fetchingDataFrom(urlString: String ,callBack: (jsonResult) -> Void) {
+
+        do {
+            try APIController().queryGlobalResults(urlString, callback: { (jsonResult) -> Void in
+                callBack(jsonResult)
+            })
+        } catch APIController.APIControllerError.CouldNotFetchingData {
+            print("CouldNotFetchingData")
+        } catch {
+            print(error)
+        }
     }
 }
