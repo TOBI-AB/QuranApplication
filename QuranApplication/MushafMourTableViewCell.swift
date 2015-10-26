@@ -1,5 +1,5 @@
 //
-//  MushafMoujTableViewCell.swift
+//  MushafMourTableViewCell.swift
 //  QuranApplication
 //
 //  Created by GhaffarEtt on 18/10/2015.
@@ -8,10 +8,9 @@
 
 import UIKit
 
-class MushafMoujTableViewCell: UITableViewCell {
-    
-    // MARK: - IBOutlet
-    @IBOutlet weak var mushafMoujReciterLabel: UILabel!
+class MushafMourTableViewCell: UITableViewCell {
+
+    @IBOutlet weak var mushafMourReciterLabel: UILabel!
     
     // MARK: - Properties
     var reciter: Reciter? {
@@ -24,10 +23,10 @@ class MushafMoujTableViewCell: UITableViewCell {
                 return
             }
             
-            mushafMoujReciterLabel.text = reciterTitle
+            self.mushafMourReciterLabel.text = reciterTitle
         }
     }
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -40,4 +39,8 @@ class MushafMoujTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        reciter = nil
+    }
 }

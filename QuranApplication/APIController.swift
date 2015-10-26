@@ -10,15 +10,36 @@ import UIKit
 
 typealias jsonResult = AnyObject
 
+protocol SouratesProtocol {
+    func didReceiveAPIResults(results: Array<NSDictionary>)
+}
+
+
 class APIController: NSObject {
     
     enum APIControllerError: ErrorType {
-
         case CouldNotFetchingData
     }
     
+    var delegate: SouratesProtocol?
     
-    private func queryGlobalResults(urlString: String, callback: (jsonResult) -> Void) throws {
+    private var globaMushafslUrlString = "https://api.islamhouse.com/v1/JD9dL72GG4vVy81Y/quran/get-categories/ar/json"
+    
+    // MARK: - Properties
+    let session: NSURLSession
+    
+    override init() {
+        
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.timeoutIntervalForRequest = 60.0
+        configuration.timeoutIntervalForResource = 60.0
+        configuration.requestCachePolicy = .ReturnCacheDataElseLoad
+        
+        self.session = NSURLSession(configuration: configuration)
+    }
+   
+    // MARK: - Query Global Mushaf Data
+    static func queryGlobalResults(urlString: String, callback: (jsonResult) -> Void) throws {
         
         guard let url =  NSURL(string: urlString) else {
             
@@ -40,7 +61,9 @@ class APIController: NSObject {
             do {
                 
                 let jsonResult = try NSJSONSerialization.JSONObjectWithData(dataFromServer, options: NSJSONReadingOptions.AllowFragments)
+                
                 callback(jsonResult)
+                
         
             } catch let errorParsingDataToJSON as NSError {
                 print(errorParsingDataToJSON.localizedDescription)
@@ -53,16 +76,88 @@ class APIController: NSObject {
         task.resume()
     }
     
-    class func fetchingDataFrom(urlString: String ,callBack: (jsonResult) -> Void) {
-
+    
+    //MARK: - Query Desired Mushaf Data
+    static func queryDesiredMushaf(desiredMushafType: String,  callba: ([Reciter]? -> Void)) {
+        
         do {
-            try APIController().queryGlobalResults(urlString, callback: { (jsonResult) -> Void in
-                callBack(jsonResult)
+            try APIController.queryGlobalResults(APIController().globaMushafslUrlString, callback: { (mushafsArray) -> Void in
+                guard let mushafsArray = mushafsArray as? Array<NSDictionary> else {
+                    return
+                }
+                
+                for mushaf in mushafsArray where (mushaf["title"] as? String) == desiredMushafType {
+                 
+                    guard let desiredMushafUrl = mushaf["api_url"] as? String else {
+                        return
+                    }
+                    
+                    do {
+                        try APIController.queryGlobalResults(desiredMushafUrl, callback: { (desiredMushaf) -> Void in
+                            guard let desiredMushaf = desiredMushaf as? NSDictionary else {
+                                return
+                            }
+                            
+                            guard let recitationsArray = desiredMushaf["recitations"] as? Array<NSDictionary> else {
+                                return
+                            }
+                            
+                            callba(Reciter.parseJSONIntorReciters(recitationsArray))
+
+                        })
+                        
+                    } catch APIController.APIControllerError.CouldNotFetchingData {
+                        print("Fetching Desired Mushaf Data Error")
+                    }catch {
+                        print(error)
+                    }
+                }
             })
+        
+        
         } catch APIController.APIControllerError.CouldNotFetchingData {
-            print("CouldNotFetchingData")
-        } catch {
+            print("Fetching Global Mushaf Data Error")
+        }catch {
             print(error)
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

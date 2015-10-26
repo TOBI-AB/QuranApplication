@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9058" systemVersion="15B38b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ImO-CC-HME">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ImO-CC-HME">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9048"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <scenes>
-        <!--Item 2-->
+        <!--Second Test View Controller-->
         <scene sceneID="Zpf-AW-Ypw">
             <objects>
                 <viewController id="cPO-H0-hTb" customClass="SecondTestViewController" customModule="QuranApplication" customModuleProvider="target" sceneMemberID="viewController">
@@ -15,14 +15,65 @@
                     <view key="view" contentMode="scaleToFill" id="zHx-pC-soE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XHf-LL-pIa">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MushafMourCell" id="DUm-Xi-Vuw" customClass="MushafMourTableViewCell" customModule="QuranApplication" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DUm-Xi-Vuw" id="ZwP-8w-QPP">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xuF-BV-PhN">
+                                                    <rect key="frame" x="8" y="11" width="584" height="21"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstItem="xuF-BV-PhN" firstAttribute="leading" secondItem="ZwP-8w-QPP" secondAttribute="leading" constant="8" id="Afm-XE-EQI"/>
+                                                <constraint firstAttribute="trailing" secondItem="xuF-BV-PhN" secondAttribute="trailing" constant="8" id="G9P-Pg-Zgh"/>
+                                                <constraint firstAttribute="bottom" secondItem="xuF-BV-PhN" secondAttribute="bottom" constant="11.5" id="Xka-Dk-Wbf"/>
+                                                <constraint firstItem="xuF-BV-PhN" firstAttribute="top" secondItem="ZwP-8w-QPP" secondAttribute="top" constant="11" id="bYJ-S8-HOI"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                        <connections>
+                                            <outlet property="mushafMourReciterLabel" destination="xuF-BV-PhN" id="0wO-5j-AzR"/>
+                                            <segue destination="HU9-Np-ghu" kind="show" identifier="segueFromSecondVC" id="DOa-Xo-Jkr"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="cPO-H0-hTb" id="Noi-0C-CdC"/>
+                                    <outlet property="delegate" destination="cPO-H0-hTb" id="n6J-7D-ZpV"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="XHf-LL-pIa" secondAttribute="bottom" id="H2h-HW-BcJ"/>
+                            <constraint firstItem="XHf-LL-pIa" firstAttribute="leading" secondItem="zHx-pC-soE" secondAttribute="leading" id="HnQ-gh-e4r"/>
+                            <constraint firstAttribute="trailing" secondItem="XHf-LL-pIa" secondAttribute="trailing" id="bcj-Nn-0Pp"/>
+                            <constraint firstItem="XHf-LL-pIa" firstAttribute="top" secondItem="zHx-pC-soE" secondAttribute="top" id="fN9-Pv-DW7"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="MQx-Oi-lQq"/>
+                    <navigationItem key="navigationItem" id="Tdd-FX-WKr"/>
+                    <connections>
+                        <outlet property="tableView" destination="XHf-LL-pIa" id="cIR-hp-2yW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EXf-4E-X4e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1334" y="1532"/>
+            <point key="canvasLocation" x="142" y="1466"/>
         </scene>
         <!--Test View Controller-->
         <scene sceneID="J0A-AI-qH6">
@@ -47,9 +98,28 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iDZ-pG-gh6" id="hZq-8n-SFK">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="me0-Cf-ogj">
+                                                    <rect key="frame" x="8" y="8" width="584" height="26.5"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                             <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="me0-Cf-ogj" secondAttribute="bottom" constant="9" id="40E-DS-kxO"/>
+                                                <constraint firstItem="me0-Cf-ogj" firstAttribute="leading" secondItem="hZq-8n-SFK" secondAttribute="leading" constant="8" id="8vm-rE-37d"/>
+                                                <constraint firstAttribute="trailing" secondItem="me0-Cf-ogj" secondAttribute="trailing" constant="8" id="TlK-Ei-Stp"/>
+                                                <constraint firstItem="me0-Cf-ogj" firstAttribute="top" secondItem="hZq-8n-SFK" secondAttribute="top" constant="8" id="f6c-Lw-cWa"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
+                                        <connections>
+                                            <outlet property="mushafMoujReciterLabel" destination="me0-Cf-ogj" id="zeP-8k-WtZ"/>
+                                            <segue destination="HU9-Np-ghu" kind="show" identifier="segueFromFirstVC" id="CC5-F0-Yjx"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -74,7 +144,94 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oFE-av-40E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2146" y="871"/>
+            <point key="canvasLocation" x="142" y="805"/>
+        </scene>
+        <!--Sourate View Controller-->
+        <scene sceneID="HiL-tA-ehR">
+            <objects>
+                <viewController storyboardIdentifier="SouratViewController" id="HU9-Np-ghu" customClass="SourateViewController" customModule="QuranApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="d9A-bT-S68"/>
+                        <viewControllerLayoutGuide type="bottom" id="A6j-gS-BrD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Rvu-Q9-XGC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mX1-8h-4P0">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SourateCell" id="qQZ-Nc-ZxP" customClass="SourateTableViewCell" customModule="QuranApplication" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qQZ-Nc-ZxP" id="9tP-9F-EI4">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                        <connections>
+                                            <segue destination="Eze-pS-wSq" kind="show" identifier="showPlayerViewController" id="sOS-vj-WNb"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="HU9-Np-ghu" id="eXq-nD-tlw"/>
+                                    <outlet property="delegate" destination="HU9-Np-ghu" id="yFt-ls-5Lk"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mX1-8h-4P0" firstAttribute="bottom" secondItem="A6j-gS-BrD" secondAttribute="top" id="386-Hg-hXe"/>
+                            <constraint firstItem="mX1-8h-4P0" firstAttribute="top" secondItem="Rvu-Q9-XGC" secondAttribute="top" id="LmD-A5-BUs"/>
+                            <constraint firstAttribute="trailing" secondItem="mX1-8h-4P0" secondAttribute="trailing" id="gJR-Gy-k7o"/>
+                            <constraint firstItem="mX1-8h-4P0" firstAttribute="leading" secondItem="Rvu-Q9-XGC" secondAttribute="leading" id="qfa-I4-5vJ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="0Vn-hG-zPR"/>
+                    <connections>
+                        <outlet property="tableView" destination="mX1-8h-4P0" id="bMq-9S-hKS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B9a-ag-mA8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="941" y="1108"/>
+        </scene>
+        <!--Sourate Player View Controller-->
+        <scene sceneID="zSC-K9-6IG">
+            <objects>
+                <viewController storyboardIdentifier="playerViewController" id="Eze-pS-wSq" customClass="SouratePlayerViewController" customModule="QuranApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ubl-YX-8E7"/>
+                        <viewControllerLayoutGuide type="bottom" id="aRG-IK-jzc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9EB-cM-3IE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player View Controller" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Jb-Hp-G1c">
+                                <rect key="frame" x="216" y="289.5" width="168.5" height="20.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1Jb-Hp-G1c" firstAttribute="centerX" secondItem="9EB-cM-3IE" secondAttribute="centerX" id="5qw-1W-bJY"/>
+                            <constraint firstItem="1Jb-Hp-G1c" firstAttribute="centerY" secondItem="9EB-cM-3IE" secondAttribute="centerY" id="xTT-lu-bfj"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eDw-Mc-Oeg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1673" y="1119"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="fTc-U3-XhD">
@@ -88,12 +245,12 @@
                     </tabBar>
                     <connections>
                         <segue destination="jeR-hl-DdY" kind="relationship" relationship="viewControllers" id="bFN-WJ-Rov"/>
-                        <segue destination="cPO-H0-hTb" kind="relationship" relationship="viewControllers" id="pQd-8R-s7G"/>
+                        <segue destination="XyB-dh-8yx" kind="relationship" relationship="viewControllers" id="pQd-8R-s7G"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rzn-FU-fF3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="514" y="1201"/>
+            <point key="canvasLocation" x="-1490" y="1135"/>
         </scene>
         <!--Item 1-->
         <scene sceneID="hgL-mC-dBZ">
@@ -113,7 +270,30 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a4E-SM-2Sm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1334" y="871"/>
+            <point key="canvasLocation" x="-670" y="805"/>
+        </scene>
+        <!--Item 2-->
+        <scene sceneID="6gl-Zc-ipW">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XyB-dh-8yx" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item 2" id="MQx-Oi-lQq"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZAm-nj-8cb">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="cPO-H0-hTb" kind="relationship" relationship="rootViewController" id="as2-A5-Bta"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hn3-eH-hLX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-670" y="1466"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="CC5-F0-Yjx"/>
+    </inferredMetricsTieBreakers>
 </document>

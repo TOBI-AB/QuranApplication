@@ -1,8 +1,8 @@
 //
-//  Reciter.swift
+//  MushafReciter.swift
 //  QuranApplication
 //
-//  Created by Abdelghaffar on 18/09/2015.
+//  Created by GhaffarEtt on 21/10/2015.
 //  Copyright © 2015 Abdelghaffar. All rights reserved.
 //
 
@@ -10,12 +10,29 @@ import UIKit
 
 struct Reciter {
     
-    let title: String?
-    let api_url: String?
+    var url = ""
+    var title = ""
     
-    init(title: String, api_url: String) {
-        self.title = title
-        self.api_url = api_url
+    static func parseJSONIntorReciters(json : Array<NSDictionary>) -> [Reciter]? {
+        
+        var reciters = [Reciter]()
+        
+        for jsonRepo in json {
+            var reciter = Reciter()
+            
+            guard let reciterUrl = jsonRepo["api_url"] as? String,
+                      reciterTitle = jsonRepo["title"] as? String else
+            {
+                return nil
+            }
+            
+            reciter.url = reciterUrl
+            reciter.title = reciterTitle
+           
+            reciters.append(reciter)
+        }
+        
+        return reciters
     }
-}
 
+}

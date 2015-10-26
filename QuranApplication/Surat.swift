@@ -8,14 +8,32 @@
 
 import UIKit
 
-struct Surat {
+
+struct Sourate {
     
-    let title: String?
-    let api_url: String?
+    var url = ""
+    var title = ""
     
-    init(title: String, api_url: String) {
-        self.title = title
-        self.api_url = api_url
+    static func parseJSONIntorSouratesList(json : Array<NSDictionary>) -> [Sourate]? {
+        
+        var sourates = [Sourate]()
+        
+        for jsonRepo in json {
+            var sourat = Sourate()
+            
+            guard let souratUrl = jsonRepo["api_url"] as? String,
+                reciterTitle = jsonRepo["title"] as? String else
+            {
+                return nil
+            }
+            
+            sourat.url = souratUrl
+            sourat.title = reciterTitle
+            
+            sourates.append(sourat)
+        }
+        
+        return sourates
     }
 }
 

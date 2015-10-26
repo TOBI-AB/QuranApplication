@@ -8,10 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		21266FC31BCF9A4F006F11A4 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21266FC21BCF9A4F006F11A4 /* MediaPlayer.framework */; };
+		216F90631BD8137800E11AF1 /* UIView + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216F90621BD8137800E11AF1 /* UIView + Ext.swift */; };
+		216F90651BD81BDE00E11AF1 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216F90641BD81BDE00E11AF1 /* Player.swift */; };
 		216FC68B1BD2761600FA903C /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216FC68A1BD2761600FA903C /* TestViewController.swift */; };
 		216FC68D1BD2767F00FA903C /* SecondStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 216FC68C1BD2767F00FA903C /* SecondStoryboard.storyboard */; };
 		216FC6AD1BD2D61600FA903C /* SecondTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216FC6AC1BD2D61600FA903C /* SecondTestViewController.swift */; };
 		216FC6AF1BD3AD5100FA903C /* MushafMoujTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216FC6AE1BD3AD5100FA903C /* MushafMoujTableViewCell.swift */; };
+		216FC6B81BD41FC900FA903C /* MushafMourTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216FC6B71BD41FC900FA903C /* MushafMourTableViewCell.swift */; };
+		218964ED1BD7C3C800868FDC /* Reciter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218964EC1BD7C3C700868FDC /* Reciter.swift */; };
+		21D8DBDE1BD9268C00A916BF /* SourateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D8DBDD1BD9268C00A916BF /* SourateViewController.swift */; };
+		21E4910D1BDC23A30043E929 /* SouratePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E4910C1BDC23A30043E929 /* SouratePlayerViewController.swift */; };
 		3E3EDDD51BAB2C58000FA933 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDD41BAB2C58000FA933 /* AppDelegate.swift */; };
 		3E3EDDD71BAB2C58000FA933 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDD61BAB2C58000FA933 /* FirstViewController.swift */; };
 		3E3EDDD91BAB2C58000FA933 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDD81BAB2C58000FA933 /* PlayerViewController.swift */; };
@@ -21,18 +27,23 @@
 		3E3EDDEA1BAB3328000FA933 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDE91BAB3328000FA933 /* APIController.swift */; };
 		3E3EDDF51BAB5F26000FA933 /* FirstSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDF41BAB5F26000FA933 /* FirstSectionCell.swift */; };
 		3E4C4F6C1BACAC3C00795FAD /* SouratesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C4F6B1BACAC3C00795FAD /* SouratesViewController.swift */; };
-		3E4C4F6E1BACC08700795FAD /* Reciter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C4F6D1BACC08700795FAD /* Reciter.swift */; };
 		3E4C4F701BACC09300795FAD /* Surat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C4F6F1BACC09300795FAD /* Surat.swift */; };
-		3E4C4F721BACC2AF00795FAD /* SecondTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C4F711BACC2AF00795FAD /* SecondTableViewCell.swift */; };
+		3E4C4F721BACC2AF00795FAD /* SourateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C4F711BACC2AF00795FAD /* SourateTableViewCell.swift */; };
 		CA07C82F1BBD6C34009B6F3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA07C82E1BBD6C34009B6F3E /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		21266FC21BCF9A4F006F11A4 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		216F90621BD8137800E11AF1 /* UIView + Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView + Ext.swift"; sourceTree = "<group>"; };
+		216F90641BD81BDE00E11AF1 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		216FC68A1BD2761600FA903C /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		216FC68C1BD2767F00FA903C /* SecondStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SecondStoryboard.storyboard; sourceTree = "<group>"; };
 		216FC6AC1BD2D61600FA903C /* SecondTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondTestViewController.swift; sourceTree = "<group>"; };
 		216FC6AE1BD3AD5100FA903C /* MushafMoujTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MushafMoujTableViewCell.swift; sourceTree = "<group>"; };
+		216FC6B71BD41FC900FA903C /* MushafMourTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MushafMourTableViewCell.swift; sourceTree = "<group>"; };
+		218964EC1BD7C3C700868FDC /* Reciter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reciter.swift; sourceTree = "<group>"; };
+		21D8DBDD1BD9268C00A916BF /* SourateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourateViewController.swift; sourceTree = "<group>"; };
+		21E4910C1BDC23A30043E929 /* SouratePlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SouratePlayerViewController.swift; sourceTree = "<group>"; };
 		3E3EDDD11BAB2C58000FA933 /* QuranApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuranApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E3EDDD41BAB2C58000FA933 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E3EDDD61BAB2C58000FA933 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -44,9 +55,8 @@
 		3E3EDDE91BAB3328000FA933 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
 		3E3EDDF41BAB5F26000FA933 /* FirstSectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstSectionCell.swift; sourceTree = "<group>"; };
 		3E4C4F6B1BACAC3C00795FAD /* SouratesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SouratesViewController.swift; sourceTree = "<group>"; };
-		3E4C4F6D1BACC08700795FAD /* Reciter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reciter.swift; sourceTree = "<group>"; };
 		3E4C4F6F1BACC09300795FAD /* Surat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surat.swift; sourceTree = "<group>"; };
-		3E4C4F711BACC2AF00795FAD /* SecondTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondTableViewCell.swift; sourceTree = "<group>"; };
+		3E4C4F711BACC2AF00795FAD /* SourateTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourateTableViewCell.swift; sourceTree = "<group>"; };
 		CA07C82E1BBD6C34009B6F3E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -63,6 +73,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		21D8DBDF1BD9269900A916BF /* Old */ = {
+			isa = PBXGroup;
+			children = (
+				3E3EDDD61BAB2C58000FA933 /* FirstViewController.swift */,
+				3E4C4F6B1BACAC3C00795FAD /* SouratesViewController.swift */,
+				3E3EDDD81BAB2C58000FA933 /* PlayerViewController.swift */,
+			);
+			name = Old;
+			sourceTree = "<group>";
+		};
 		3E3EDDC81BAB2C58000FA933 = {
 			isa = PBXGroup;
 			children = (
@@ -86,8 +106,10 @@
 				3E3EDDEE1BAB50EF000FA933 /* Model */,
 				3E3EDDEB1BAB50D6000FA933 /* APIController */,
 				3E3EDDF21BAB5DB2000FA933 /* Controllers */,
+				21D8DBDF1BD9269900A916BF /* Old */,
 				3E3EDDF61BAB5F2F000FA933 /* Cells */,
 				3E3EDDF31BAB5E38000FA933 /* Storyboards */,
+				216F90621BD8137800E11AF1 /* UIView + Ext.swift */,
 				3E3EDDDD1BAB2C58000FA933 /* Assets.xcassets */,
 				CA07C82D1BBD6C18009B6F3E /* Frameworks */,
 				3E3EDDE21BAB2C58000FA933 /* Info.plist */,
@@ -106,8 +128,9 @@
 		3E3EDDEE1BAB50EF000FA933 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3E4C4F6D1BACC08700795FAD /* Reciter.swift */,
+				218964EC1BD7C3C700868FDC /* Reciter.swift */,
 				3E4C4F6F1BACC09300795FAD /* Surat.swift */,
+				216F90641BD81BDE00E11AF1 /* Player.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -117,9 +140,8 @@
 			children = (
 				216FC68A1BD2761600FA903C /* TestViewController.swift */,
 				216FC6AC1BD2D61600FA903C /* SecondTestViewController.swift */,
-				3E3EDDD61BAB2C58000FA933 /* FirstViewController.swift */,
-				3E4C4F6B1BACAC3C00795FAD /* SouratesViewController.swift */,
-				3E3EDDD81BAB2C58000FA933 /* PlayerViewController.swift */,
+				21D8DBDD1BD9268C00A916BF /* SourateViewController.swift */,
+				21E4910C1BDC23A30043E929 /* SouratePlayerViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -138,8 +160,9 @@
 			isa = PBXGroup;
 			children = (
 				216FC6AE1BD3AD5100FA903C /* MushafMoujTableViewCell.swift */,
+				216FC6B71BD41FC900FA903C /* MushafMourTableViewCell.swift */,
+				3E4C4F711BACC2AF00795FAD /* SourateTableViewCell.swift */,
 				3E3EDDF41BAB5F26000FA933 /* FirstSectionCell.swift */,
-				3E4C4F711BACC2AF00795FAD /* SecondTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -230,17 +253,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				218964ED1BD7C3C800868FDC /* Reciter.swift in Sources */,
+				216FC6B81BD41FC900FA903C /* MushafMourTableViewCell.swift in Sources */,
 				216FC68B1BD2761600FA903C /* TestViewController.swift in Sources */,
 				3E3EDDEA1BAB3328000FA933 /* APIController.swift in Sources */,
 				216FC6AF1BD3AD5100FA903C /* MushafMoujTableViewCell.swift in Sources */,
 				3E3EDDF51BAB5F26000FA933 /* FirstSectionCell.swift in Sources */,
 				216FC6AD1BD2D61600FA903C /* SecondTestViewController.swift in Sources */,
 				3E4C4F6C1BACAC3C00795FAD /* SouratesViewController.swift in Sources */,
+				21D8DBDE1BD9268C00A916BF /* SourateViewController.swift in Sources */,
+				216F90631BD8137800E11AF1 /* UIView + Ext.swift in Sources */,
 				3E3EDDD91BAB2C58000FA933 /* PlayerViewController.swift in Sources */,
+				21E4910D1BDC23A30043E929 /* SouratePlayerViewController.swift in Sources */,
 				3E3EDDD51BAB2C58000FA933 /* AppDelegate.swift in Sources */,
-				3E4C4F721BACC2AF00795FAD /* SecondTableViewCell.swift in Sources */,
-				3E4C4F6E1BACC08700795FAD /* Reciter.swift in Sources */,
+				3E4C4F721BACC2AF00795FAD /* SourateTableViewCell.swift in Sources */,
 				3E3EDDD71BAB2C58000FA933 /* FirstViewController.swift in Sources */,
+				216F90651BD81BDE00E11AF1 /* Player.swift in Sources */,
 				3E4C4F701BACC09300795FAD /* Surat.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

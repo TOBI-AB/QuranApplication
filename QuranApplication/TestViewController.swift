@@ -7,41 +7,33 @@
 //
 
 import UIKit
+import AVFoundation
+
 
 class TestViewController: UIViewController {
     
     // MARK: - IBOUtlets
     @IBOutlet weak var tableView: UITableView!
     
-    // MARK: - Properties
-    private var globalUrlString = "https://api.islamhouse.com/v1/JD9dL72GG4vVy81Y/quran/get-categories/ar/json"
-    private var recitersArray = [Reciter]()
     
-    var urlStringMushafMoujawad: String! {
-        didSet {
-            fetchMushafMoujawadDataFrom(urlStringMushafMoujawad)
-        }
-    }
+    // MARK: - Properties
+    private let mushafMoujawad = "المصاحف المجودة"
+    private var recitersList = [Reciter]()
+    private var stackView: UIStackView!
+    var player: Player?
 
+    
     // MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.tabBarItem.title = "المصاحف المجودة"
+        updateView()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
-        let frame = CGRectMake(CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame), 100, 100)
-        let label = UILabel(frame: frame)
-        label.text = "Loading..."
-        label.center = self.view.center
-        self.view.addSubview(label)
-       
-        let backgroundView = UIView(frame: CGRectZero)
-        
-        self.tableView.tableFooterView = backgroundView
-        self.tableView.backgroundColor = UIColor.clearColor()
-        self.tableView.transform = CGAffineTransformMakeTranslation(0.0, CGRectGetHeight(self.tableView.frame) + 20)
-        
-        fetchingGlobalDataFrom(globalUrlString)
+        queryMushafsType(mushafMoujawad)
     }
     
     override func didReceiveMemoryWarning() {
@@ -50,72 +42,29 @@ class TestViewController: UIViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        guard let segueIdentifier = segue.identifier as String? where segueIdentifier == "segueFromFirstVC" else {
+            return
+        }
+        
+        guard let indexPath = self.tableView.indexPathForSelectedRow else {
+            return
+        }
+        
+        guard let sourateViewController = segue.destinationViewController as? SourateViewController else {
+            return
+        }
+        
+        sourateViewController.reciter = self.recitersList[indexPath.row]
     }
-    */
-
 }
 
 
-// MARK: - Private Functions
-extension TestViewController {
-    
-    func fetchingGlobalDataFrom(urlString: String) {
-        APIController.fetchingDataFrom(urlString) { (globalJsonDict) -> Void in
-        
-            if let globalJsonDict = globalJsonDict as? Array<NSDictionary> {
-                for dict in globalJsonDict where (dict["title"] as? String) == "المصاحف المجودة" {
-                    guard let apiUrl = dict["api_url"] as? String else {
-                        return
-                    }
-            
-                    self.urlStringMushafMoujawad = apiUrl
-                }
-            }
-        }
-    }
-    
-    func fetchMushafMoujawadDataFrom(urlString: String) {
-        APIController.fetchingDataFrom(urlString) { (dictMushafMoujawad) -> Void in
-            guard let dictMushafMoujawad = dictMushafMoujawad as? NSDictionary else {
-                return
-            }
-            
-            guard let recitationsArray = dictMushafMoujawad["recitations"] as? Array<NSDictionary> else {
-                return
-            }
-            
-            recitationsArray.forEach({ (reciterDict) -> () in
-                guard let api_url = reciterDict["api_url"] as? String,
-                          preparedByDict = reciterDict["prepared_by"] as? Array<NSDictionary>,
-                          firstElement = preparedByDict.first as NSDictionary?,
-                          title = firstElement["title"] as? String
-                          else
-                {
-                    return
-                }
-                
-                let reciter = Reciter(title: title, api_url: api_url)
-                self.recitersArray.append(reciter)
-                
-                dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                    self.tableView.reloadData()
-                   
-                    UIView.animateWithDuration(1.5, animations: { () -> Void in
-                        self.tableView.transform = CGAffineTransformIdentity
-                    })
-                }
-            })
-        }
-        
-    }
-}
 
 // MARK: - UITableViewDataSource
 extension TestViewController: UITableViewDataSource {
@@ -124,13 +73,13 @@ extension TestViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.recitersArray.isEmpty ? 0 : self.recitersArray.count
+        return self.recitersList.isEmpty ? 0 : self.recitersList.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MushafMoujCell", forIndexPath: indexPath) as! MushafMoujTableViewCell
         
-        let reciter = self.recitersArray[indexPath.row]
+        let reciter = self.recitersList[indexPath.row]
         cell.reciter = reciter
         
         return cell
@@ -140,21 +89,84 @@ extension TestViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension TestViewController: UITableViewDelegate {
-   
+    
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return 100.0
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-    
+   
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+//        let storyBoard = UIStoryboard(name: "SecondStoryboard", bundle: nil)
+//        let SouratViewController = storyBoard.instantiateViewControllerWithIdentifier("SouratViewController")
+//        showViewController(SouratViewController, sender: self)
+        
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 }
 
-
+// MARK: // Private Functions
+extension TestViewController {
+   
+    private func updateView() {
+        
+        self.navigationController?.tabBarItem.title = "المصاحف المجودة"
+        //self.view.addLoadingView()
+        
+        let label = UILabel()
+        label.text = "Loading..."
+        
+        let frame = CGRectMake(CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame), 100, 100)
+        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        activityIndicatorView.startAnimating()
+        
+        stackView = UIStackView(frame: frame)
+        stackView.axis = .Horizontal
+        stackView.distribution = .Fill
+        stackView.alignment = .Center
+        stackView.addArrangedSubview(activityIndicatorView)
+        stackView.addArrangedSubview(label)
+        stackView.center = self.view.center
+        stackView.spacing = 5.0
+        
+        //self.view.addSubview(stackView)
+        
+        let backgroundView = UIView(frame: CGRectZero)
+        
+        self.tableView.tableFooterView = backgroundView
+        self.tableView.backgroundColor = UIColor.clearColor()
+        self.tableView.transform = CGAffineTransformMakeTranslation(0.0, CGRectGetHeight(self.tableView.frame) + 20)
+        
+    }
+    
+    
+    func queryMushafsType(mushafType: String) {
+        
+        APIController.queryDesiredMushaf(mushafType) { (reciters) -> Void in
+            
+            guard let reciters = reciters as [Reciter]? else {
+                return
+            }
+            
+            self.recitersList = reciters
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.tableView.reloadData()
+                
+                UIView.animateWithDuration(1.25, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: [], animations: { () -> Void in
+                    
+                    self.tableView.transform = CGAffineTransformIdentity
+                    
+                    }, completion: nil)
+            })
+        }
+        
+    }
+}
 
 
 
