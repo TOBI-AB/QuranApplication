@@ -16,6 +16,7 @@
 		216FC6AF1BD3AD5100FA903C /* MushafMoujTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216FC6AE1BD3AD5100FA903C /* MushafMoujTableViewCell.swift */; };
 		216FC6B81BD41FC900FA903C /* MushafMourTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216FC6B71BD41FC900FA903C /* MushafMourTableViewCell.swift */; };
 		218964ED1BD7C3C800868FDC /* Reciter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218964EC1BD7C3C700868FDC /* Reciter.swift */; };
+		21A416C81BDFDB15000A50C7 /* TitlesTabBarItems.plist in Resources */ = {isa = PBXBuildFile; fileRef = 21A416C71BDFDB15000A50C7 /* TitlesTabBarItems.plist */; };
 		21D8DBDE1BD9268C00A916BF /* SourateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D8DBDD1BD9268C00A916BF /* SourateViewController.swift */; };
 		21E4910D1BDC23A30043E929 /* SouratePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E4910C1BDC23A30043E929 /* SouratePlayerViewController.swift */; };
 		3E3EDDD51BAB2C58000FA933 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDD41BAB2C58000FA933 /* AppDelegate.swift */; };
@@ -42,6 +43,7 @@
 		216FC6AE1BD3AD5100FA903C /* MushafMoujTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MushafMoujTableViewCell.swift; sourceTree = "<group>"; };
 		216FC6B71BD41FC900FA903C /* MushafMourTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MushafMourTableViewCell.swift; sourceTree = "<group>"; };
 		218964EC1BD7C3C700868FDC /* Reciter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reciter.swift; sourceTree = "<group>"; };
+		21A416C71BDFDB15000A50C7 /* TitlesTabBarItems.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TitlesTabBarItems.plist; sourceTree = "<group>"; };
 		21D8DBDD1BD9268C00A916BF /* SourateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourateViewController.swift; sourceTree = "<group>"; };
 		21E4910C1BDC23A30043E929 /* SouratePlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SouratePlayerViewController.swift; sourceTree = "<group>"; };
 		3E3EDDD11BAB2C58000FA933 /* QuranApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuranApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,6 +115,7 @@
 				3E3EDDDD1BAB2C58000FA933 /* Assets.xcassets */,
 				CA07C82D1BBD6C18009B6F3E /* Frameworks */,
 				3E3EDDE21BAB2C58000FA933 /* Info.plist */,
+				21A416C71BDFDB15000A50C7 /* TitlesTabBarItems.plist */,
 			);
 			path = QuranApplication;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 			files = (
 				3E3EDDE11BAB2C58000FA933 /* LaunchScreen.storyboard in Resources */,
 				216FC68D1BD2767F00FA903C /* SecondStoryboard.storyboard in Resources */,
+				21A416C81BDFDB15000A50C7 /* TitlesTabBarItems.plist in Resources */,
 				3E3EDDDE1BAB2C58000FA933 /* Assets.xcassets in Resources */,
 				3E3EDDDC1BAB2C58000FA933 /* Main.storyboard in Resources */,
 			);

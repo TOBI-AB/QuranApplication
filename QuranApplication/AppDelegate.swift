@@ -16,6 +16,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
        
+        // Setup TabBarController
+        guard let window = self.window as UIWindow?, rootViewController = window.rootViewController as UIViewController? else {
+            fatalError()
+        }
+        
+        guard let tab = rootViewController as? UITabBarController, viewControllers = tab.viewControllers as [UIViewController]? else {
+            fatalError()
+        }
+        
+        
+        guard let plistFilePath = NSBundle.mainBundle().pathForResource("TitlesTabBarItems", ofType: "plist"), titlesDictionary = NSDictionary(contentsOfFile: plistFilePath) as NSDictionary? else {
+            fatalError()
+        }
+
+        // Get TabBarItem Title From Plist File
+        viewControllers.forEach({ (viewController: UIViewController) -> () in
+            guard let viewControllerIndex = viewControllers.indexOf(viewController) as Int? else {
+                fatalError()
+            }
+            
+            guard let titlesDictionary =  titlesDictionary["tab1"] as? Array<String>, titleTabBarItem = titlesDictionary[viewControllerIndex] as String? else {
+                fatalError()
+            }
+            
+            viewController.title = titleTabBarItem
+        })
+        
         return true
     }
 
@@ -43,4 +70,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
 

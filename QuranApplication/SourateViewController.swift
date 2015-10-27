@@ -13,13 +13,13 @@ import UIKit
 class SourateViewController: UIViewController {
     
     
-   
-    
     // MARK: - IBOutlet
     @IBOutlet weak var tableView: UITableView!
     
     // MARK: - Properties
+    var searchController: UISearchController!
     var souratesList = [Sourate]()
+    var searchResults = [Sourate]()
 
     var reciter: Reciter? {
         didSet {
@@ -32,10 +32,12 @@ class SourateViewController: UIViewController {
     }
     
     
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupSearchController()
         self.tableView.translateToBottom()
     }
     
@@ -47,11 +49,8 @@ class SourateViewController: UIViewController {
 
     
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+
         guard segue.identifier == "showPlayerViewController" else {
             return
         }
@@ -61,7 +60,7 @@ class SourateViewController: UIViewController {
             
         }
         
-        guard let currentSourate = self.souratesList[indexPathForSelectedRow.row] as Sourate? else {
+        guard let currentSourate = (self.searchController.active) ? self.searchResults[indexPathForSelectedRow.row] : self.souratesList[indexPathForSelectedRow.row] as Sourate? else {
             fatalError()
         }
         
@@ -69,8 +68,16 @@ class SourateViewController: UIViewController {
             return
         }
         
-       playerViewController.currentSourate = currentSourate
-        playerViewController.currentReciter = self.reciter
+        playerViewController.currentSourate = currentSourate
+        playerViewController.reciter = self.reciter
+    }
+    
+    // MARK: - Deinit
+    deinit {
+        
+        if let superView = self.searchController.view.superview {
+            superView.removeFromSuperview()
+        }
     }
 }
 
@@ -83,13 +90,14 @@ extension SourateViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.souratesList.isEmpty ? 0 : self.souratesList.count
+       
+        return (self.searchController.active) ? self.searchResults.count : self.souratesList.count //self.souratesList.isEmpty ? 0 : self.souratesList.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SourateCell", forIndexPath: indexPath) as! SourateTableViewCell
         
-        let sourate = self.souratesList[indexPath.row]
+        let sourate = (self.searchController.active) ? self.searchResults[indexPath.row] : self.souratesList[indexPath.row]
         cell.sourate = sourate
         
         return cell
@@ -108,6 +116,22 @@ extension SourateViewController: UITableViewDelegate {
 // MARK: - Privates Functions
 extension SourateViewController {
     
+    // MARK: - Setup SearchController
+    func setupSearchController() {
+       
+        self.searchController = UISearchController(searchResultsController: nil)
+        self.searchController.searchBar.sizeToFit()
+        self.definesPresentationContext = true
+        self.searchController.hidesNavigationBarDuringPresentation = true
+        self.searchController.dimsBackgroundDuringPresentation = false
+        self.searchController.searchResultsUpdater = self
+        //self.searchController.searchBar.barTintColor = UIColor.redColor()//UIColor(colorLiteralRed: 229.0, green: 57.0, blue: 20.0, alpha: 1.0)
+        self.searchController.searchBar.placeholder = ""//"ابحث عن سورة"
+        
+        self.tableView.tableHeaderView = self.searchController.searchBar
+    }
+    
+    // MARK: - GetSourateAtIndexPath
     func getSourateAtIndexPath(callaback:(sourate: Sourate) -> Void) {
         
         guard let indexPath = self.tableView.indexPathForSelectedRow as NSIndexPath? else {
@@ -121,7 +145,7 @@ extension SourateViewController {
         callaback(sourate: currentSourate)
     }
     
-    
+    // MARK: - QuerySouratesListOfReciter
     private func querySouratesListOfReciter(reciter: Reciter) {
        
         do {
@@ -148,19 +172,45 @@ extension SourateViewController {
                     self.navigationItem.title = desiredReciterTitle
                     self.tableView.reloadData()
 
-                    UIView.animateWithDuration(1.25, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.7, options: [], animations: { () -> Void in
+                    UIView.animateWithDuration(2.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.7, options: [], animations: { () -> Void in
+                        
                         self.tableView.transform = CGAffineTransformIdentity
-
+                        
                         }, completion: nil)
-                    
                 })
             }
+        
         } catch {
             print(error)
         }
         
     }
+    
+    // MARK: - Filter contents
+    func filterContentForSearchText(searchText: String) {
+        self.searchResults = self.souratesList.filter({ (sourate: Sourate) -> Bool in
+            let nameMatch = sourate.title.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
+            
+            return nameMatch != nil
+        })
+    }
+    
 }
+
+// MARK: - UISearchResultsUpdating
+extension SourateViewController: UISearchResultsUpdating {
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        
+        guard let searchText = searchController.searchBar.text as String? else {
+            return
+        }
+        
+        filterContentForSearchText(searchText)
+        self.tableView.reloadData()
+    }
+}
+
+
 
 
 

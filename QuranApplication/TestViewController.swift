@@ -114,7 +114,7 @@ extension TestViewController {
    
     private func updateView() {
         
-        self.navigationController?.tabBarItem.title = "المصاحف المجودة"
+        //self.navigationController?.tabBarItem.title = "المصاحف المجودة"
         //self.view.addLoadingView()
         
         let label = UILabel()

@@ -16,7 +16,7 @@ extension UIView {
     }
     
     func translateToBottom() {
-       self.transform =  CGAffineTransformMakeTranslation(0.0, CGRectGetHeight(self.frame) + 20)
+       self.transform =  CGAffineTransformMakeTranslation(0.0, CGRectGetHeight(self.frame) + 200)
     }
 }
 
