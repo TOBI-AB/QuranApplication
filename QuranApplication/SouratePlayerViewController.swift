@@ -20,9 +20,13 @@ class SouratePlayerViewController: UIViewController {
     
     @IBOutlet weak var titleReciterLabel: UILabel!
     @IBOutlet weak var titleSourateLabel: UILabel!
+    @IBOutlet weak var timeLapsedLabel: UILabel!
+    @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var timeSlider: UISlider!
     
     // MARK: - Properties
+    
+    // Reciter & Sourate Variables
     var currentSourate: Sourate? {
         didSet {
             guard let sourate = currentSourate as Sourate? else {
@@ -35,6 +39,7 @@ class SouratePlayerViewController: UIViewController {
     
     var reciter: Reciter?
     
+    // Player Variables
     private var player = AVPlayer()
     
     private var audioFileUrlString: String? {
@@ -60,10 +65,36 @@ class SouratePlayerViewController: UIViewController {
                 return
             }
             self.player.replaceCurrentItemWithPlayerItem(newPlayerItem)
+            
+            let playerItemDuration = Float(CMTimeGetSeconds(newPlayerItem.duration))
+            
+            self.durationLabel.text = createTimeString(playerItemDuration)
         }
     }
     
+    // Time Variables
+    
     private var timeObserverToken: AnyObject?
+
+    private var currentTime: Double {
+        get {
+            return CMTimeGetSeconds(player.currentTime())
+        }
+        set {
+            let newTime = CMTimeMakeWithSeconds(newValue, 1)
+            player.seekToTime(newTime, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+        }
+    }
+    
+    
+    let timeRemainingFormatter: NSDateComponentsFormatter = {
+        let formatter = NSDateComponentsFormatter()
+        formatter.zeroFormattingBehavior = .Pad
+        formatter.allowedUnits = [.Hour, .Minute, .Second]
+        
+        return formatter
+    }()
+    
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -96,6 +127,11 @@ class SouratePlayerViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // MARK: - IBActions
+    @IBAction func timeSliderDidChange(sender: UISlider) {
+        currentTime = Double(sender.value)
+    }
     
     // MARK: - Deinit
     deinit {
@@ -170,11 +206,15 @@ extension SouratePlayerViewController {
         player.addObserver(self, forKeyPath: "currentItem.duration", options: [.New, .Initial], context: &playerViewControllerKVOContext)
         
         let interval = CMTime(value: 1, timescale: 1)
-        timeObserverToken = self.player.addPeriodicTimeObserverForInterval(interval, queue: dispatch_get_main_queue(), usingBlock: { [weak self](time) -> Void in
-            
-            self?.timeSlider.value = Float(CMTimeGetSeconds(time))
-            })
+        
+        timeObserverToken = self.player.addPeriodicTimeObserverForInterval(interval, queue: dispatch_get_main_queue(), usingBlock: { [unowned self](time) -> Void in
 
+            let timeElapsed = Float(CMTimeGetSeconds(time))
+            
+            self.timeSlider.value = timeElapsed
+            self.timeLapsedLabel.text = self.createTimeString(timeElapsed)
+            
+            })
     }
     
     // MARK: - Remove KOV
@@ -191,11 +231,70 @@ extension SouratePlayerViewController {
             self.timeObserverToken = nil
         }
     }
+    
+    
+    // MARK: - Handle Background Mode
+    func playAudioInBackground() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+                
+            } catch let error as NSError {
+                print("Active Error: \(error.localizedDescription)")
+            }
+        } catch let error as NSError {
+            print("Session Error: \(error.localizedDescription)")
+        }
+    }
+    
+    // MARK: - Handle Interruptions
+    func playInterrupt(notification: NSNotification) {
+        if notification.name == AVAudioSessionInterruptionNotification && notification.userInfo != nil {
+            let info = notification.userInfo!
+            var intValue: UInt = 0
+            
+            guard let interruptionTypeKey = info[AVAudioSessionInterruptionTypeKey] as? NSValue else {
+                return
+            }
+            
+            interruptionTypeKey.getValue(&intValue)
+            if let type = AVAudioSessionInterruptionType(rawValue: intValue) {
+                switch type {
+                case .Began:
+                    player.pause()
+                case .Ended:
+                    NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "resumeNow:", userInfo: nil, repeats: false)
+                }
+            }
+        }
+    }
+    
+    // MARK: - Resume Audio Session After Interruption
+    func resumeNow(timer : NSTimer) {
+
+        keyValuesObserving()
+    }
+    
+    
+    // MARK: Convenience
+    func createTimeString(time: Float) -> String {
+        let components = NSDateComponents()
+        components.second = Int(max(0.0, time))
+        
+        return timeRemainingFormatter.stringFromDateComponents(components)!
+    }
 }
+
+
+
+
 
 // MARK: - KVO
 extension SouratePlayerViewController {
     
+    // MARK: - ObserveValues
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
         guard context == &playerViewControllerKVOContext else {
@@ -210,9 +309,19 @@ extension SouratePlayerViewController {
             let newStatus: AVPlayerItemStatus
             
             if let newStatusNumber = change?[NSKeyValueChangeNewKey] as? NSNumber {
+               
                 newStatus = AVPlayerItemStatus(rawValue: newStatusNumber.integerValue)!
-                player.play()
                 
+                // Add Interruption Notification
+                let theSession = AVAudioSession.sharedInstance()
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "playInterrupt:", name: AVAudioSessionInterruptionNotification, object: theSession)
+                
+                // Handle Background Mode
+                playAudioInBackground()
+                
+                // Play Sourate
+                player.play()
+
             } else {
                 newStatus = .Unknown
             }
@@ -223,13 +332,9 @@ extension SouratePlayerViewController {
         
             // Observe Player Duration
         case .Some("currentItem.duration"):
-            // Update timeSlider and enable/disable controls when duration > 0.0
-            /*
-                Handle `NSNull` value for `NSKeyValueChangeNewKey`, i.e. when
-                `player.currentItem` is nil.
-            */
             
             let newDuration: CMTime
+           
             if let newDurationValue = change?[NSKeyValueChangeNewKey] as? NSValue {
                 newDuration = newDurationValue.CMTimeValue
             } else {
