@@ -91,7 +91,7 @@ extension SourateViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        
-        return (self.searchController.active) ? self.searchResults.count : self.souratesList.count //self.souratesList.isEmpty ? 0 : self.souratesList.count
+        return (self.searchController.active) ? self.searchResults.count : self.souratesList.count 
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -125,8 +125,7 @@ extension SourateViewController {
         self.searchController.hidesNavigationBarDuringPresentation = true
         self.searchController.dimsBackgroundDuringPresentation = false
         self.searchController.searchResultsUpdater = self
-        //self.searchController.searchBar.barTintColor = UIColor.redColor()//UIColor(colorLiteralRed: 229.0, green: 57.0, blue: 20.0, alpha: 1.0)
-        self.searchController.searchBar.placeholder = ""//"ابحث عن سورة"
+        self.searchController.searchBar.placeholder = ""
         
         self.tableView.tableHeaderView = self.searchController.searchBar
     }

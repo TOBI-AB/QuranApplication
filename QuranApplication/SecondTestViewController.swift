@@ -23,7 +23,7 @@ class SecondTestViewController: UIViewController {
         super.viewDidLoad()
 
         //self.navigationController?.tabBarItem.title = mushafMour
-        self.tableView.transform = CGAffineTransformMakeTranslation(0.0, CGRectGetHeight(self.tableView.frame) + 20)
+        self.tableView.translateToBottom()
     }
     
     override func viewDidAppear(animated: Bool) {

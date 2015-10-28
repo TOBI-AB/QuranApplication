@@ -19,6 +19,9 @@
 		21A416C81BDFDB15000A50C7 /* TitlesTabBarItems.plist in Resources */ = {isa = PBXBuildFile; fileRef = 21A416C71BDFDB15000A50C7 /* TitlesTabBarItems.plist */; };
 		21D8DBDE1BD9268C00A916BF /* SourateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D8DBDD1BD9268C00A916BF /* SourateViewController.swift */; };
 		21E4910D1BDC23A30043E929 /* SouratePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E4910C1BDC23A30043E929 /* SouratePlayerViewController.swift */; };
+		21F048761BE048D2006D4725 /* ThirdTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F048751BE048D2006D4725 /* ThirdTestViewController.swift */; };
+		21F0487A1BE0C3E1006D4725 /* MushafMouaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F048791BE0C3E1006D4725 /* MushafMouaTableViewCell.swift */; };
+		21F0487C1BE0C5B9006D4725 /* SourateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F0487B1BE0C5B9006D4725 /* SourateTableViewCell.swift */; };
 		3E3EDDD51BAB2C58000FA933 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDD41BAB2C58000FA933 /* AppDelegate.swift */; };
 		3E3EDDD71BAB2C58000FA933 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDD61BAB2C58000FA933 /* FirstViewController.swift */; };
 		3E3EDDD91BAB2C58000FA933 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDD81BAB2C58000FA933 /* PlayerViewController.swift */; };
@@ -26,10 +29,8 @@
 		3E3EDDDE1BAB2C58000FA933 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E3EDDDD1BAB2C58000FA933 /* Assets.xcassets */; };
 		3E3EDDE11BAB2C58000FA933 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E3EDDDF1BAB2C58000FA933 /* LaunchScreen.storyboard */; };
 		3E3EDDEA1BAB3328000FA933 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDE91BAB3328000FA933 /* APIController.swift */; };
-		3E3EDDF51BAB5F26000FA933 /* FirstSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3EDDF41BAB5F26000FA933 /* FirstSectionCell.swift */; };
 		3E4C4F6C1BACAC3C00795FAD /* SouratesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C4F6B1BACAC3C00795FAD /* SouratesViewController.swift */; };
 		3E4C4F701BACC09300795FAD /* Surat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C4F6F1BACC09300795FAD /* Surat.swift */; };
-		3E4C4F721BACC2AF00795FAD /* SourateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4C4F711BACC2AF00795FAD /* SourateTableViewCell.swift */; };
 		CA07C82F1BBD6C34009B6F3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA07C82E1BBD6C34009B6F3E /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,9 @@
 		21A416C71BDFDB15000A50C7 /* TitlesTabBarItems.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TitlesTabBarItems.plist; sourceTree = "<group>"; };
 		21D8DBDD1BD9268C00A916BF /* SourateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourateViewController.swift; sourceTree = "<group>"; };
 		21E4910C1BDC23A30043E929 /* SouratePlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SouratePlayerViewController.swift; sourceTree = "<group>"; };
+		21F048751BE048D2006D4725 /* ThirdTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdTestViewController.swift; sourceTree = "<group>"; };
+		21F048791BE0C3E1006D4725 /* MushafMouaTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MushafMouaTableViewCell.swift; sourceTree = "<group>"; };
+		21F0487B1BE0C5B9006D4725 /* SourateTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourateTableViewCell.swift; sourceTree = "<group>"; };
 		3E3EDDD11BAB2C58000FA933 /* QuranApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuranApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E3EDDD41BAB2C58000FA933 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E3EDDD61BAB2C58000FA933 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -55,10 +59,8 @@
 		3E3EDDE01BAB2C58000FA933 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3E3EDDE21BAB2C58000FA933 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3E3EDDE91BAB3328000FA933 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
-		3E3EDDF41BAB5F26000FA933 /* FirstSectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstSectionCell.swift; sourceTree = "<group>"; };
 		3E4C4F6B1BACAC3C00795FAD /* SouratesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SouratesViewController.swift; sourceTree = "<group>"; };
 		3E4C4F6F1BACC09300795FAD /* Surat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surat.swift; sourceTree = "<group>"; };
-		3E4C4F711BACC2AF00795FAD /* SourateTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourateTableViewCell.swift; sourceTree = "<group>"; };
 		CA07C82E1BBD6C34009B6F3E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -143,6 +145,7 @@
 			children = (
 				216FC68A1BD2761600FA903C /* TestViewController.swift */,
 				216FC6AC1BD2D61600FA903C /* SecondTestViewController.swift */,
+				21F048751BE048D2006D4725 /* ThirdTestViewController.swift */,
 				21D8DBDD1BD9268C00A916BF /* SourateViewController.swift */,
 				21E4910C1BDC23A30043E929 /* SouratePlayerViewController.swift */,
 			);
@@ -164,8 +167,8 @@
 			children = (
 				216FC6AE1BD3AD5100FA903C /* MushafMoujTableViewCell.swift */,
 				216FC6B71BD41FC900FA903C /* MushafMourTableViewCell.swift */,
-				3E4C4F711BACC2AF00795FAD /* SourateTableViewCell.swift */,
-				3E3EDDF41BAB5F26000FA933 /* FirstSectionCell.swift */,
+				21F048791BE0C3E1006D4725 /* MushafMouaTableViewCell.swift */,
+				21F0487B1BE0C5B9006D4725 /* SourateTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -258,19 +261,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				218964ED1BD7C3C800868FDC /* Reciter.swift in Sources */,
+				21F0487C1BE0C5B9006D4725 /* SourateTableViewCell.swift in Sources */,
 				216FC6B81BD41FC900FA903C /* MushafMourTableViewCell.swift in Sources */,
 				216FC68B1BD2761600FA903C /* TestViewController.swift in Sources */,
 				3E3EDDEA1BAB3328000FA933 /* APIController.swift in Sources */,
 				216FC6AF1BD3AD5100FA903C /* MushafMoujTableViewCell.swift in Sources */,
-				3E3EDDF51BAB5F26000FA933 /* FirstSectionCell.swift in Sources */,
 				216FC6AD1BD2D61600FA903C /* SecondTestViewController.swift in Sources */,
 				3E4C4F6C1BACAC3C00795FAD /* SouratesViewController.swift in Sources */,
 				21D8DBDE1BD9268C00A916BF /* SourateViewController.swift in Sources */,
 				216F90631BD8137800E11AF1 /* UIView + Ext.swift in Sources */,
 				3E3EDDD91BAB2C58000FA933 /* PlayerViewController.swift in Sources */,
 				21E4910D1BDC23A30043E929 /* SouratePlayerViewController.swift in Sources */,
+				21F0487A1BE0C3E1006D4725 /* MushafMouaTableViewCell.swift in Sources */,
 				3E3EDDD51BAB2C58000FA933 /* AppDelegate.swift in Sources */,
-				3E4C4F721BACC2AF00795FAD /* SourateTableViewCell.swift in Sources */,
+				21F048761BE048D2006D4725 /* ThirdTestViewController.swift in Sources */,
 				3E3EDDD71BAB2C58000FA933 /* FirstViewController.swift in Sources */,
 				216F90651BD81BDE00E11AF1 /* Player.swift in Sources */,
 				3E4C4F701BACC09300795FAD /* Surat.swift in Sources */,

@@ -31,7 +31,7 @@ class MushafMoujTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.textLabel?.textAlignment = .Right
+        self.mushafMoujReciterLabel?.textAlignment = .Right
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

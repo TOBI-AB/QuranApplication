@@ -1,54 +1,46 @@
 //
-//  TestViewController.swift
+//  ThirdTestViewController.swift
 //  QuranApplication
 //
-//  Created by GhaffarEtt on 17/10/2015.
+//  Created by GhaffarEtt on 28/10/2015.
 //  Copyright © 2015 Abdelghaffar. All rights reserved.
 //
 
 import UIKit
-import AVFoundation
 
-
-class TestViewController: UIViewController {
+class ThirdTestViewController: UIViewController {
     
-    // MARK: - IBOUtlets
+    
+    // MARK: - IBOutlets
     @IBOutlet weak var tableView: UITableView!
     
     
     // MARK: - Properties
-    private let mushafMoujawad = "المصاحف المجودة"
+    var searchController: UISearchController!
     private var recitersList = [Reciter]()
-    private var stackView: UIStackView!
-    var player: Player?
+    var searchResults = [Reciter]()
+    private let mushafMouaalam = "مصاحف مترجمة"
 
-    
-    // MARK: View Life Cycle
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateView()
+       updateView()
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        queryMushafsType(mushafMoujawad)
+        queryMushafsType(mushafMouaalam)
+        
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
     
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        guard let segueIdentifier = segue.identifier as String? where segueIdentifier == "segueFromFirstVC" else {
+       
+        guard let segueIdentifier = segue.identifier as String? where segueIdentifier == "segueFromThirdVC" else {
             return
         }
         
@@ -60,26 +52,26 @@ class TestViewController: UIViewController {
             return
         }
         
-        sourateViewController.reciter = self.recitersList[indexPath.row]
+        sourateViewController.reciter = (self.searchController.active) ? self.searchResults[indexPath.row] : self.recitersList[indexPath.row]
     }
 }
 
 
-
 // MARK: - UITableViewDataSource
-extension TestViewController: UITableViewDataSource {
+extension ThirdTestViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.recitersList.isEmpty ? 0 : self.recitersList.count
+        return (self.searchController.active) ? self.searchResults.count : self.recitersList.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MushafMoujCell", forIndexPath: indexPath) as! MushafMoujTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("MushafMouaalmCell", forIndexPath: indexPath) as! MushafMouaTableViewCell
         
-        let reciter = self.recitersList[indexPath.row]
+        let reciter = (self.searchController.active) ? self.searchResults[indexPath.row] : self.recitersList[indexPath.row]
+       
         cell.reciter = reciter
         
         return cell
@@ -88,7 +80,7 @@ extension TestViewController: UITableViewDataSource {
 
 
 // MARK: - UITableViewDelegate
-extension TestViewController: UITableViewDelegate {
+extension ThirdTestViewController: UITableViewDelegate {
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 100.0
@@ -97,53 +89,61 @@ extension TestViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-   
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-//        let storyBoard = UIStoryboard(name: "SecondStoryboard", bundle: nil)
-//        let SouratViewController = storyBoard.instantiateViewControllerWithIdentifier("SouratViewController")
-//        showViewController(SouratViewController, sender: self)
-        
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 }
 
-// MARK: // Private Functions
-extension TestViewController {
+// MARK: - Handle SearchController
+extension ThirdTestViewController: UISearchResultsUpdating {
    
-    private func updateView() {
+    
+    // MARK: - Udpate TableView
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
         
-        //self.navigationController?.tabBarItem.title = "المصاحف المجودة"
-        //self.view.addLoadingView()
+        guard let searchText = searchController.searchBar.text as String? else {
+            return
+        }
         
-        let label = UILabel()
-        label.text = "Loading..."
+        filterContentForSearchText(searchText)
+        self.tableView.reloadData()
+    }
+}
+
+// MARK: - Private functions
+extension ThirdTestViewController {
+    
+    func updateView() {
+        self.searchController = UISearchController(searchResultsController: nil)
+        self.searchController.searchBar.sizeToFit()
+        self.definesPresentationContext = true
+        self.searchController.hidesNavigationBarDuringPresentation = true
+        self.searchController.dimsBackgroundDuringPresentation = false
+        self.searchController.searchResultsUpdater = self
+        self.searchController.searchBar.placeholder = ""
         
-        let frame = CGRectMake(CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame), 100, 100)
-        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        activityIndicatorView.startAnimating()
-        
-        stackView = UIStackView(frame: frame)
-        stackView.axis = .Horizontal
-        stackView.distribution = .Fill
-        stackView.alignment = .Center
-        stackView.addArrangedSubview(activityIndicatorView)
-        stackView.addArrangedSubview(label)
-        stackView.center = self.view.center
-        stackView.spacing = 5.0
-        
-        //self.view.addSubview(stackView)
-        
+        self.tableView.tableHeaderView = self.searchController.searchBar
+        self.tableView.translateToBottom()
         let backgroundView = UIView(frame: CGRectZero)
-        
         self.tableView.tableFooterView = backgroundView
         self.tableView.backgroundColor = UIColor.clearColor()
-        self.tableView.translateToBottom()
+    }
+    
+    // MARK: - Filter contents
+    func filterContentForSearchText(searchText: String) {
+     
+        self.searchResults = self.recitersList.filter({ (reciter: Reciter) -> Bool in
+            
+            let ttr =  reciter.title.containsString(searchText)
+            print(ttr)
+            return ttr
+        })
+        
         
     }
     
-    
+    // MARK: - Query A Specified Mushfa
     func queryMushafsType(mushafType: String) {
         
         APIController.queryDesiredMushaf(mushafType) { (reciters) -> Void in
@@ -167,6 +167,36 @@ extension TestViewController {
         
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

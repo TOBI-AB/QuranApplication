@@ -1,14 +1,14 @@
 //
-//  MushafMourTableViewCell.swift
+//  MushafMouaTableViewCell.swift
 //  QuranApplication
 //
-//  Created by GhaffarEtt on 18/10/2015.
+//  Created by GhaffarEtt on 28/10/2015.
 //  Copyright © 2015 Abdelghaffar. All rights reserved.
 //
 
 import UIKit
 
-class MushafMourTableViewCell: UITableViewCell {
+class MushafMouaTableViewCell: UITableViewCell {
 
     @IBOutlet weak var mushafMourReciterLabel: UILabel!
     
@@ -30,17 +30,18 @@ class MushafMourTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.mushafMourReciterLabel?.textAlignment = .Right
+        self.mushafMourReciterLabel.textAlignment = .Right
     }
-
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         reciter = nil
     }
+
 }
