@@ -40,7 +40,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fatalError()
             }
             
-            viewController.title = titleTabBarItem
+            if let font = UIFont(name: "Arial", size: 15) {
+                viewController.tabBarItem.setTitleTextAttributes([NSFontAttributeName: font], forState: .Normal)
+            }
+            viewController.tabBarItem.title = titleTabBarItem
         })
         
         return true

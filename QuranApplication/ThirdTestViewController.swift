@@ -135,9 +135,7 @@ extension ThirdTestViewController {
      
         self.searchResults = self.recitersList.filter({ (reciter: Reciter) -> Bool in
             
-            let ttr =  reciter.title.containsString(searchText)
-            print(ttr)
-            return ttr
+            return reciter.title.containsString(searchText)
         })
         
         

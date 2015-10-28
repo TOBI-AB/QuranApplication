@@ -54,21 +54,18 @@ class SourateViewController: UIViewController {
         guard segue.identifier == "showPlayerViewController" else {
             return
         }
-        
+ 
         guard let indexPathForSelectedRow = self.tableView.indexPathForSelectedRow as NSIndexPath?  else {
-            fatalError()
+            return
             
-        }
-        
-        guard let currentSourate = (self.searchController.active) ? self.searchResults[indexPathForSelectedRow.row] : self.souratesList[indexPathForSelectedRow.row] as Sourate? else {
-            fatalError()
         }
         
         guard let playerViewController = segue.destinationViewController as? SouratePlayerViewController else {
             return
         }
         
-        playerViewController.currentSourate = currentSourate
+        playerViewController.currentSourate = (self.searchController.active) ? self.searchResults[indexPathForSelectedRow.row] : self.souratesList[indexPathForSelectedRow.row]
+        
         playerViewController.reciter = self.reciter
     }
     
@@ -130,6 +127,16 @@ extension SourateViewController {
         self.tableView.tableHeaderView = self.searchController.searchBar
     }
     
+    // MARK: - Filter contents
+    func filterContentForSearchText(searchText: String) {
+        self.searchResults = self.souratesList.filter({ (sourate: Sourate) -> Bool in
+            //  let nameMatch = sourate.title.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
+            
+            return sourate.title.containsString(searchText)
+        })
+    }
+    
+    
     // MARK: - GetSourateAtIndexPath
     func getSourateAtIndexPath(callaback:(sourate: Sourate) -> Void) {
         
@@ -184,20 +191,14 @@ extension SourateViewController {
         }
         
     }
-    
-    // MARK: - Filter contents
-    func filterContentForSearchText(searchText: String) {
-        self.searchResults = self.souratesList.filter({ (sourate: Sourate) -> Bool in
-            let nameMatch = sourate.title.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
-            
-            return nameMatch != nil
-        })
-    }
-    
 }
+
+
 
 // MARK: - UISearchResultsUpdating
 extension SourateViewController: UISearchResultsUpdating {
+   
+    // MARK: - updateSearchResultsForSearchController
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         
         guard let searchText = searchController.searchBar.text as String? else {
