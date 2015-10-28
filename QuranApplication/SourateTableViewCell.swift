@@ -8,18 +8,24 @@
 
 import UIKit
 
-class SecondTableViewCell: UITableViewCell {
+class SourateTableViewCell: UITableViewCell {
     
+    // MARK: - IBOutlets
+    @IBOutlet weak var suratLabel: UILabel!
+
     // MARK: - Properties
-    
-    var surat: Surat? {
+    var sourate: Sourate? {
         didSet {
-            updateView()
+            guard let newSourat = sourate as Sourate?, title = newSourat.title as String? else {
+                return
+            }
+            
+            self.textLabel?.textAlignment = .Right
+            self.textLabel?.text = title
+
         }
     }
     
-    @IBOutlet weak var suratLabel: UILabel!
-
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -30,14 +36,4 @@ class SecondTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    func updateView() {
-        
-        guard let surat = surat as Surat?, title = surat.title as String? else {
-            return
-        }
-        
-        self.suratLabel?.text = title
-    }
-
 }

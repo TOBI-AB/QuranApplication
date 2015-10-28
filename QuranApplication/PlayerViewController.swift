@@ -22,7 +22,8 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var timeSlider: UISlider!
     
     
-    var sourate: Surat!
+    var sourate: Sourate!
+
     
     // Attempt load and test these asset keys before playing.
     static let assetKeysRequiredToPlay = ["playable", "hasProtectedContent"]
@@ -80,7 +81,7 @@ class PlayerViewController: UIViewController {
         
         super.viewDidLoad()
         
-        guard let sourate = sourate as Surat?, urlString = sourate.api_url as String?, let sourateUrl = NSURL(string: urlString) else {
+        guard let sourate = sourate as Sourate?, urlString = sourate.url as String?, let sourateUrl = NSURL(string: urlString) else {
             return
         }
        

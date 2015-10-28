@@ -26,6 +26,11 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>api.islamhouse.com</key>
+			<dict>
+				<key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 			<key>d1.islamhouse.com</key>
 			<dict>
 				<key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
@@ -40,7 +45,7 @@
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
+	<string>SecondStoryboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
